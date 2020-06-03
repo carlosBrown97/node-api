@@ -1,0 +1,12 @@
+{
+	"DB_USER": "postgres",
+	"DB_PASS": "",
+	"DB_NAME": "node-api",
+	"DB_HOST": "127.0.0.1",
+	"DB_PORT": 5432,
+	"dialect": "postgres",
+	"DB_LOGS": false,
+	"DB_URL": "postgres://localhost:5432/node-api",
+	"HOST": "0.0.0.0",
+	"operatorsAliases": false
+}
