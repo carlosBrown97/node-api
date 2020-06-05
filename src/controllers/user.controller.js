@@ -1,6 +1,7 @@
 const { log } = require('../../config.js')
 const models = require('../db/models')
 const _ = require('lodash')
+const bcrypt = require('bcrypt')
 
 async function getUsers(req, res) {
   try{
@@ -42,6 +43,9 @@ async function getOneUser(req, res) {
 async function createUser(req, res) {
   try{
     const data = req.body
+    const pwd = await bcrypt.hash(data.encrypted_password, 12)
+    data.encrypted_password = pwd
+
     const newUser = await models.Users.create(data)
 
     return res.status(201).json({
