@@ -32,6 +32,7 @@ config = _.merge({}, {
 	DB_OPTIONS: { dialect: 'postgres' },
 	LOG_LEVEL: process.env.LOG_LEVEL || 'INFO',
 	DB_URL: process.env.DB_URL || 'postgres://localhost:5432/node-api',
+  TEST_DB_URL: process.env.TEST_DB_URL || 'postgres://localhost:5432/node-test'
 }, config);
 
 const loggerTransports = [new winston.transports.Console()]
@@ -39,7 +40,6 @@ const loggerTransports = [new winston.transports.Console()]
 const loggerFormat = winston.format.printf(info => {
 	return `${info.timestamp} [${info.level}]: ${info.message}`
 })
-
 
 winston.addColors({
 	emerg: 'red',
@@ -53,6 +53,10 @@ winston.addColors({
 	info: 'grey',
 	debug: 'white'
 })
+
+if (config.ENV === 'test') {
+  config.LOG_LEVEL = '-1'
+}
 
 log = winston.createLogger({
 	levels: {
@@ -80,13 +84,16 @@ log = winston.createLogger({
 
 console.log(`NODE_ENV=${config.ENV}`)
 
-if( config.DB_LOGS === false ){
+if (config.ENV === 'test') {
+  config.DB_URL = config.TEST_DB_URL
 	dbOptions.logging = false;
+} else {
+	dbOptions.logging = (msg) => {
+  log.sql(msg)};
 }
 
 config.log = log;
 config.DB_OPTIONS = _.merge({}, config.DB_OPTIONS, dbOptions);
-
 
 if(require.main === module){
 	const args = process.argv.slice(2);

@@ -12,7 +12,7 @@ module.exports = {
 	test: {
 		"username": config.DB_USER,
 		"password": config.DB_PASS,
-		"database": config.DB_NAME,
+		"database": config.DB_NAME || "node-test",
 		"host": config.DB_HOST,
 		"port": config.DB_PORT,
 		"dialect": config.dialect || "postgres"

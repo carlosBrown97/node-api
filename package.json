@@ -4,11 +4,15 @@
   "description": "",
   "main": "bin/start.js",
   "scripts": {
+    "test": "mocha --exit --timeout=20000",
     "start": "node bin/start.js",
     "db:migrate": "sequelize db:migrate",
+    "db:drop": "sequelize db:migrate:undo:all",
     "db:rollback": "sequelize db:migrate:undo",
     "db:seed:all": "sequelize db:seed:all",
-    "db:seed:undo:all": "sequelize db:seed:undo:all"
+    "db:seed:undo:all": "sequelize db:seed:undo:all",
+    "db:test:migrate": "NODE_ENV=test sequelize db:migrate",
+    "db:test:drop": "NODE_ENV=test sequelize db:migrate:undo:all"
   },
   "keywords": [],
   "author": "",
@@ -24,10 +28,14 @@
     "pg": "^8.2.1",
     "sequelize": "^5.21.11",
     "sequelize-to-json": "^0.10.3",
+    "supertest": "^4.0.2",
     "uuid": "^8.1.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^8.0.1",
     "nodemon": "^2.0.4",
     "sequelize-cli": "^5.5.1"
   }
